@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f2ec">
+    <title>Interpolate — Numerical interpolation, made clear</title>
+    <meta name="description" content="Solve Lagrange and Newton divided-difference interpolation with a clear, step-by-step workspace.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+    <header class="site-header">
+        <a class="brand" href="/" aria-label="Interpolate home"><span class="brand-mark" aria-hidden="true">∿</span><span>interpolate</span></a>
+        <span class="header-note"><span class="status-dot"></span> SymPy powered</span>
+    </header>
+    <main class="page-shell">
+        <section class="hero reveal">
+            <div class="eyebrow"><span>01</span> Numerical analysis toolkit</div>
+            <h1>Find the value<br><em>between the points.</em></h1>
+            <p>Build a polynomial from known data and evaluate any point with Lagrange or Newton’s divided-difference method.</p>
+        </section>
+        <form id="solverForm" class="workspace reveal" method="POST" action="/solve" novalidate>
+            <section class="panel setup-panel">
+                <div class="section-heading"><span class="section-number">01</span><div><h2>Set up the problem</h2><p>Choose a method and what you want to estimate.</p></div></div>
+                <div class="control-grid">
+                    <div class="field">
+                        <label for="method">Method</label>
+                        <div class="select-wrap"><select name="method" id="method"><option value="lagrange">Lagrange polynomial</option><option value="newton">Newton divided difference</option></select></div>
+                        <span class="field-hint" id="methodHint">Direct basis-polynomial construction</span>
+                    </div>
+                    <div class="field">
+                        <label for="mode">Calculate</label>
+                        <div class="segmented" role="group" aria-label="Calculation direction"><button class="segment active" type="button" data-mode="find_y">y from x</button><button class="segment" type="button" data-mode="find_x">x from y</button></div>
+                        <input type="hidden" name="mode" id="mode" value="find_y">
+                        <span class="field-hint" id="modeHint">Estimate y at a known x</span>
+                    </div>
+                    <div class="field target-field">
+                        <label for="target">Target <span id="targetSymbol">x</span></label>
+                        <div class="target-input"><span id="targetPrefix">x =</span><input type="number" step="any" name="target" id="target" placeholder="e.g. 2.5" required inputmode="decimal"></div>
+                        <span class="field-hint">The point to interpolate</span>
+                    </div>
+                </div>
+            </section>
+            <section class="panel points-panel">
+                <div class="section-heading points-heading"><span class="section-number">02</span><div><h2>Add known points</h2><p>Enter at least two unique coordinates.</p></div><span class="point-count"><strong id="pointCount">3</strong> / 25 points</span></div>
+                <div class="table-wrap"><table id="pointTable"><thead><tr><th>#</th><th>x value</th><th>y value</th><th><span class="sr-only">Remove</span></th></tr></thead><tbody id="tableBody"></tbody></table></div>
+                <button type="button" id="addRow" class="add-point"><span aria-hidden="true">＋</span> Add another point</button>
+            </section>
+            <div id="formMessage" class="form-message" role="alert" aria-live="polite"></div>
+            <div class="form-actions"><button type="reset" class="text-button">Clear all</button><button type="submit" class="solve-button"><span class="button-label">Calculate result</span><span class="button-arrow" aria-hidden="true">↗</span><span class="spinner" aria-hidden="true"></span></button></div>
+        </form>
+    </main>
+    <footer><span>Built for curious minds.</span><span>Interpolation · Lagrange · Newton</span></footer>
+</body>
+</html>
